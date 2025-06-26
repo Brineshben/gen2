@@ -11,6 +11,7 @@ class ApiServices {
   factory ApiServices() {
     return _instance;
   }
+
   static Future<Map<String, dynamic>> CameraList() async {
     String url = "http://192.168.1.80:7500/camera/camera/list/";
     print("Doctor List---$url");
@@ -31,7 +32,7 @@ class ApiServices {
 
   ///joint LIST
   static Future<Map<String, dynamic>> fetchJointList() async {
-    const String url = "http://192.168.1.32:8001/joint/joint-status/detail/1/";
+    const String url = "http://192.168.1.80:7500/joint/joint-status/detail/1/";
     print("Fetching Joint List from: $url");
 
     try {
@@ -52,15 +53,15 @@ class ApiServices {
       } else {
         throw Exception('Failed to fetch joint list: ${response.statusCode}');
       }
-
     } catch (e) {
       print("Error during Joint List fetch: $e");
       throw Exception("Service Error while fetching Joint List: $e");
     }
   }
+
   ///joint LIST
   static Future<Map<String, dynamic>> fetchJointList2() async {
-    const String url = "http://192.168.1.32:8001/joint/joint-status/detail/2/";
+    const String url = "http://192.168.1.80:7500/joint/joint-status/detail/2/";
     print("Fetching Joint List from: $url");
 
     try {
@@ -81,12 +82,12 @@ class ApiServices {
       } else {
         throw Exception('Failed to fetch joint list: ${response.statusCode}');
       }
-
     } catch (e) {
       print("Error during Joint List fetch: $e");
       throw Exception("Service Error while fetching Joint List: $e");
     }
   }
+
   // static Future<Map<String, dynamic>> JointList2() async {
   //   // String url = "${ApiConstants.baseURL}${ApiConstants.jointList}$id/";
   //   String url = "http://192.168.1.32:8000/joint/joint-status/detail/2/";
@@ -107,34 +108,24 @@ class ApiServices {
   //   }
   // }
 
-
   static Future<Map<String, dynamic>> JointControls({
     required String arm,
-    required int j1,
-    required int j2,
-    required int j3,
-    required int j4,
-    required int j5,
-    required int j6,
+    required List<int> joints,
   }) async {
     // String url = "${ApiConstants.baseURL}${ApiConstants.jointControls}";
-    String url = "http://192.168.1.32:8001/joint/joint-status/create/";
+    String url = "http://192.168.1.80:7500/joint/joint-status/create/";
     print(url);
-    Map apiBody = {
-      "arm_number":arm,
-      "j1": j1,
-      "j2": j2,
-      "j3": j3,
-      "j4": j4,
-      "j5": j5,
-      "j6": j6
+
+    Map<String, dynamic> apiBody = {
+      "arm_number": arm,
+      "joints": joints,
     };
     try {
       var request = http.Request('POST', Uri.parse(url));
       request.body = (json.encode(apiBody));
-      print('Sending GET rewdgwrgfquest...${request.body }');
+      print('Sending GET rewdgwrgfquest...${request.body}');
 
-      // request.headers.addAll({'Content-Type': 'application/json'});
+      request.headers.addAll({'Content-Type': 'application/json'});
       http.StreamedResponse response = await request.send();
       print('joint control response------------->${response}');
 
@@ -144,22 +135,80 @@ class ApiServices {
       throw Exception("Service Error Login Api");
     }
   }
+
   static Future<Map<String, dynamic>> JoystickService({
     required String value,
-
   }) async {
     // String url = "${ApiConstants.baseURL}${ApiConstants.jointControls}";
-    String url = "http://192.168.1.32:8001/joint/base-control/update/";
+    String url = "http://192.168.1.80:7500/joint/base-control/update/";
     print(url);
-    Map apiBody = {
-      "value": value
-    };
+    Map apiBody = {"value": value};
     try {
       var request = http.Request('POST', Uri.parse(url));
       request.body = (json.encode(apiBody));
       request.headers.addAll({'Content-Type': 'application/json'});
       http.StreamedResponse response = await request.send();
       print('joint control response------------->${response}');
+
+      var respString = await response.stream.bytesToString();
+      return json.decode(respString);
+    } catch (e) {
+      throw Exception("Service Error Login Api");
+    }
+  }
+
+  static Future<Map<String, dynamic>> JointDataz(// required String value,
+
+      ) async {
+    String url = "http://192.168.1.80:7500/camera/position/detail/1/";
+    // print(url);
+    // Map apiBody = {
+    //   "value": value
+    // };
+    try {
+      var request = http.Request('GET', Uri.parse(url));
+      request.headers.addAll({'Content-Type': 'application/json'});
+      http.StreamedResponse response = await request.send();
+      print('joint control response------------->${response}');
+
+      var respString = await response.stream.bytesToString();
+      return json.decode(respString);
+    } catch (e) {
+      throw Exception("Service Error Login Api");
+    }
+  }
+
+  static Future<Map<String, dynamic>> JointDataz2() async {
+    String url = "http://192.168.1.80:7500/camera/position/detail/2/";
+    // print(url);
+    // Map apiBody = {
+    //   "value": value
+    // };
+    try {
+      var request = http.Request('GET', Uri.parse(url));
+      // request.body = (json.encode(apiBody));
+      request.headers.addAll({'Content-Type': 'application/json'});
+      http.StreamedResponse response = await request.send();
+      print('joint control response------------->${response}');
+
+      var respString = await response.stream.bytesToString();
+      return json.decode(respString);
+    } catch (e) {
+      throw Exception("Service Error Login Api");
+    }
+  }
+  static Future<Map<String, dynamic>> ArmService() async {
+    String url = "http://192.168.1.80:7500/arm/arm/list/";
+    // print(url);
+    // Map apiBody = {
+    //   "value": value
+    // };
+    try {
+      var request = http.Request('GET', Uri.parse(url));
+      // request.body = (json.encode(apiBody));
+      request.headers.addAll({'Content-Type': 'application/json'});
+      http.StreamedResponse response = await request.send();
+      print('ArmService response------------->${response}');
 
       var respString = await response.stream.bytesToString();
       return json.decode(respString);

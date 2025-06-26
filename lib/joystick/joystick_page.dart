@@ -1,110 +1,107 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_joystick/flutter_joystick.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-
 import '../Service/ApiService.dart';
 import '../Service/popups.dart';
 
 class JoystickPage extends StatelessWidget {
   const JoystickPage({super.key});
 
+  Future<void> sendDirection(String direction, BuildContext context) async {
+    String value = "";
+
+    switch (direction) {
+      case 'up':
+        value = "forward:50";
+        break;
+      case 'down':
+        value = "backward:50";
+        break;
+      case 'left':
+        value = "left:0.174533";
+        break;
+      case 'right':
+        value = "right:-0.174533";
+        break;
+    }
+
+    final resp = await ApiServices.JoystickService(value: value);
+
+    if (resp['status'] == "ok") {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            width: MediaQuery.of(context).size.width*0.20,
+            elevation: 1.0,
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 1),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35.0)),
+            content: Wrap(
+              children: [
+                Container(
+                  //height: 20,
+                  child: Center(
+                    child: Text(
+                      '${direction.toUpperCase()} is pressed',
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+      );
+      // Get.snackbar(
+      //   'Success',
+      //   '${direction.toUpperCase()} is pressed',
+      //   snackPosition: SnackPosition.TOP,
+      //   backgroundColor: Colors.white,
+      //   colorText: Colors.black,
+      //   borderRadius: 8,
+      //   margin: const EdgeInsets.all(10),
+      //   snackStyle: SnackStyle.FLOATING,
+      // );
+    } else {
+      ProductAppPopUps.submit(
+        title: "Error",
+        message: "Something went wrong",
+        actionName: "Close",
+        iconData: Icons.error_outline_outlined,
+        iconColor: Colors.red,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Joystick(
-        mode: JoystickMode.horizontalAndVertical,
-        listener: (StickDragDetails details) async{
-          final dx = details.x;
-          final dy = details.y;
-
-          if (dy < -0.5)  {
-            Map<String, dynamic> resp =
-                await ApiServices.JoystickService( value:"forward:100"
-            );
-
-            print("--------resp resp------------$resp");
-            if (resp['status'] == "ok") {
-              Get.snackbar('Success', 'TOP is pressed',
-                  snackPosition: SnackPosition.TOP);
-            } else {
-              ProductAppPopUps.submit(
-                title: "Error",
-                message: "Something went wrong ",
-                actionName: "Close",
-                iconData: Icons.error_outline_outlined,
-                iconColor: Colors.red,
-              );
-            }          } else if (dy > 0.5) {
-            Map<String, dynamic> resp =
-            await ApiServices.JoystickService( value:"backward:100"
-            );
-
-            print("--------resp resp------------$resp");
-            if (resp['status'] == "ok") {
-              Get.snackbar('Success', 'BOTTOM is pressed',
-                  snackPosition: SnackPosition.TOP);
-            } else {
-              ProductAppPopUps.submit(
-                title: "Error",
-                message: "Something went wrong ",
-                actionName: "Close",
-                iconData: Icons.error_outline_outlined,
-                iconColor: Colors.red,
-              );
-            }
-            print("DOWN");
-          } else if (dx < -0.5) {
-            Map<String, dynamic> resp =
-            await ApiServices.JoystickService( value:"left:0.174533"
-            );
-
-            print("--------resp resp------------$resp");
-            if (resp['status'] == "ok") {
-              Get.snackbar('Success', 'LEFT is pressed',
-                  snackPosition: SnackPosition.TOP);
-            } else {
-              ProductAppPopUps.submit(
-                title: "Error",
-                message: "Something went wrong ",
-                actionName: "Close",
-                iconData: Icons.error_outline_outlined,
-                iconColor: Colors.red,
-              );
-            }
-            print("LEFT");
-          } else if (dx > 0.5) {
-            Map<String, dynamic> resp =
-            await ApiServices.JoystickService( value:"right:-0.174533"
-            );
-
-            print("--------resp resp------------$resp");
-            if (resp['status'] == "ok") {
-              Get.snackbar('Success', 'RIGHT is pressed',
-                  snackPosition: SnackPosition.TOP);
-            } else {
-              ProductAppPopUps.submit(
-                title: "Error",
-                message: "Something went wrong ",
-                actionName: "Close",
-                iconData: Icons.error_outline_outlined,
-                iconColor: Colors.red,
-              );
-            }
-            print("RIGHT");
-          }
-        },
-        base: JoystickBase(
-          decoration: JoystickBaseDecoration(
-            color: Colors.transparent,
-            drawOuterCircle: false,
-          ),
-          arrowsDecoration: JoystickArrowsDecoration(
-            color: Colors.blue,
-          ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () => sendDirection("up", context),
+              child: const Icon(Icons.arrow_upward),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () => sendDirection("left", context),
+                  child: const Icon(Icons.arrow_back_ios_new_outlined),
+                ),
+                const SizedBox(width: 20),
+                ElevatedButton(
+                  onPressed: () => sendDirection("right", context),
+                  child: const Icon(Icons.arrow_forward_ios),
+                ),
+              ],
+            ),
+            ElevatedButton(
+              onPressed: () => sendDirection("down", context),
+              child: const Icon(Icons.arrow_downward),
+            ),
+          ],
         ),
-      ),
-
+      ],
     );
   }
 }
