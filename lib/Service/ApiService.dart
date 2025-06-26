@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'apiconstant.dart';
+import 'package:gen2/Chat_Page/model/qalist_model.dart';
+import 'package:gen2/Service/apiconstant.dart';
 import 'package:http/http.dart' as http;
 
 class ApiServices {
@@ -52,12 +53,12 @@ class ApiServices {
       } else {
         throw Exception('Failed to fetch joint list: ${response.statusCode}');
       }
-
     } catch (e) {
       print("Error during Joint List fetch: $e");
       throw Exception("Service Error while fetching Joint List: $e");
     }
   }
+
   ///joint LIST
   static Future<Map<String, dynamic>> fetchJointList2() async {
     const String url = "http://192.168.1.32:8001/joint/joint-status/detail/2/";
@@ -81,7 +82,6 @@ class ApiServices {
       } else {
         throw Exception('Failed to fetch joint list: ${response.statusCode}');
       }
-
     } catch (e) {
       print("Error during Joint List fetch: $e");
       throw Exception("Service Error while fetching Joint List: $e");
@@ -107,7 +107,6 @@ class ApiServices {
   //   }
   // }
 
-
   static Future<Map<String, dynamic>> JointControls({
     required String arm,
     required int j1,
@@ -121,7 +120,7 @@ class ApiServices {
     String url = "http://192.168.1.32:8001/joint/joint-status/create/";
     print(url);
     Map apiBody = {
-      "arm_number":arm,
+      "arm_number": arm,
       "j1": j1,
       "j2": j2,
       "j3": j3,
@@ -132,7 +131,7 @@ class ApiServices {
     try {
       var request = http.Request('POST', Uri.parse(url));
       request.body = (json.encode(apiBody));
-      print('Sending GET rewdgwrgfquest...${request.body }');
+      print('Sending GET rewdgwrgfquest...${request.body}');
 
       // request.headers.addAll({'Content-Type': 'application/json'});
       http.StreamedResponse response = await request.send();
@@ -144,16 +143,14 @@ class ApiServices {
       throw Exception("Service Error Login Api");
     }
   }
+
   static Future<Map<String, dynamic>> JoystickService({
     required String value,
-
   }) async {
     // String url = "${ApiConstants.baseURL}${ApiConstants.jointControls}";
     String url = "http://192.168.1.32:8001/joint/base-control/update/";
     print(url);
-    Map apiBody = {
-      "value": value
-    };
+    Map apiBody = {"value": value};
     try {
       var request = http.Request('POST', Uri.parse(url));
       request.body = (json.encode(apiBody));
@@ -165,6 +162,56 @@ class ApiServices {
       return json.decode(respString);
     } catch (e) {
       throw Exception("Service Error Login Api");
+    }
+  }
+
+  //---------------------------------------------------------
+
+  // create QA
+  static Future<Map<String, dynamic>> createQA(
+      {required String question}) async {
+    String url = "${ApiConstants.baseURL}${ApiConstants.createQa}";
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      Map apiBody = {"question": question};
+
+      request.headers.addAll({'Content-Type': 'application/json'});
+      request.body = (json.encode(apiBody));
+
+      http.StreamedResponse response = await request.send();
+      String responseBody = await response.stream.bytesToString();
+      print('Response body: $responseBody');
+      if (response.statusCode == 200) {
+        return json.decode(responseBody);
+      } else {
+        throw Exception('Failed to fetch joint list: ${response.statusCode}');
+      }
+    } catch (e) {
+      print("Error during Joint List fetch: $e");
+      throw Exception("Service Error while fetching Joint List: $e");
+    }
+  }
+
+// get list of Q&A
+  static Future<QAListModel> getQAList() async {
+    String url = "${ApiConstants.baseURL}${ApiConstants.qAList}";
+    try {
+      var request = http.Request('GET', Uri.parse(url));
+      request.headers.addAll({'Content-Type': 'application/json'});
+      http.StreamedResponse response = await request.send();
+      String responseBody = await response.stream.bytesToString();
+      print('Response body: $responseBody');
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonResponse = json.decode(responseBody);
+        return QAListModel.fromJson(jsonResponse);
+      } else {
+        throw Exception(
+            'Failed to fetch question list: ${response.statusCode}');
+      }
+    } catch (e) {
+      print("Error fetching QA List: $e");
+      throw Exception("Error fetching QA List: $e");
     }
   }
 }

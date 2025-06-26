@@ -34,7 +34,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   get: ^4.6.6
   get_it: ^7.7.0
-  flutter_vlc_player: ^7.4.0
+  # flutter_vlc_player: ^7.4.0
   google_fonts: ^6.2.1
   flutter_joystick: ^0.2.2
 

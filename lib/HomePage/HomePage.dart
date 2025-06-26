@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import '../Camera/Controller/CameraController.dart';
 import '../Camera/camera_page.dart';
-import '../Chat_Page/chatpage.dart';
+import '../Chat_Page/view/chatpage.dart';
 import '../JointControl/Controller/jointController.dart';
 import '../JointControl/joint_Control.dart';
 import '../joystick/joystick_page.dart';
@@ -15,11 +15,11 @@ class FourSectionScreen extends StatefulWidget {
   State<FourSectionScreen> createState() => _FourSectionScreenState();
 
   static Widget _buildSection(
-      BuildContext context, {
-        required String title,
-        required Color color,
-        required Widget page,
-      }) {
+    BuildContext context, {
+    required String title,
+    required Color color,
+    required Widget page,
+  }) {
     return Expanded(
       child: InkWell(
         onTap: () => Navigator.push(
@@ -32,9 +32,9 @@ class FourSectionScreen extends StatefulWidget {
             child: Text(
               title,
               style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,color: Colors.white
-              ),
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
             ),
           ),
         ),
@@ -52,6 +52,7 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
     Get.find<Cameracontroller>().CameraDataz();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
@@ -61,24 +62,24 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
             Expanded(
               child: Column(
                 children: [
-                  CameraSection(),
                   // CameraSection(),
+                  // CameraSection(),
+                  Expanded(child: ChatPage()),
                 ],
               ),
-            ), Expanded(
+            ),
+            Expanded(
               child: Column(
                 children: [
-
                   MotorSection(),
                   // JoystickPage(),
                 ],
               ),
             ),
-
           ],
         ),
       ),
-      floatingActionButton:JoystickPage() ,
+      floatingActionButton: JoystickPage(),
     );
   }
 }
