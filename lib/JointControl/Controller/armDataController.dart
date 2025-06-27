@@ -28,8 +28,6 @@ class Armcontroller extends GetxController {
         // Extract joint integers and assign
         armList.value = Armdata.value?.data ?? [];
 
-
-
         isLoaded.value = true;
       } else {
         isError.value = true;

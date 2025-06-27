@@ -9,7 +9,7 @@ import '../JointControl/Controller/jointdatasController.dart';
 
 class HandleControllers {
   static createGetControllers() {
-    Get.put(Cameracontroller());
+    // Get.put(Cameracontroller());
     Get.put(Jointcontroller());
     Get.put(Jointcontroller2());
     Get.put(JointDatasController());
@@ -18,7 +18,7 @@ class HandleControllers {
   }
 
   static deleteAllGetControllers() async {
-    await Get.delete<Cameracontroller>();
+    // await Get.delete<Cameracontroller>();
     await Get.delete<Jointcontroller>();
     await Get.delete<Jointcontroller2>();
     await Get.delete<JointDatasController>();

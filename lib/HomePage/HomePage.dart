@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../Camera/Controller/CameraController.dart';
@@ -16,14 +18,23 @@ class FourSectionScreen extends StatefulWidget {
 }
 
 class _FourSectionScreenState extends State<FourSectionScreen> {
+  Timer? messageTimer2;
+
   @override
   void initState() {
     super.initState();
+    messageTimer2 = Timer.periodic(const Duration(seconds: 2), (timer) {
+      print("HomePage initialized");
+
+      Get.find<JointDatasController>().JointValueData();
+      Get.find<JointDatasController2>().JointValueData2();    });
+
     Get.find<Jointcontroller>().jointDataz();
     Get.find<Jointcontroller2>().jointDatazz();
-    Get.find<JointDatasController>().JointValueData();
-    Get.find<JointDatasController2>().JointValueData2();
-    Get.find<Cameracontroller>().CameraDataz();
+    // Get.find<Jointcontroller>().jointDataz();
+    // Get.find<Jointcontroller2>().jointDatazz();
+
+    // Get.find<Cameracontroller>().CameraDataz();
   }
 
   @override
@@ -37,18 +48,18 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
             Expanded(
               child: Column(
                 children: [
-                  MotorSection(),
+                  Expanded(child: ChatPage()),
                   // CameraSection(),
                 ],
               ),
             ),
-            // Expanded(
-            //   child: Column(
-            //     children: [
-            //       MotorSection(),
-            //     ],
-            //   ),
-            // ),
+            Expanded(
+              child: Column(
+                children: [
+                  MotorSection(),
+                ],
+              ),
+            ),
           ],
         ),
       ),
