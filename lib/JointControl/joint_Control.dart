@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gen2/robot_status.dart';
 import 'package:get/get.dart';
 
 import '../Service/ApiService.dart';
@@ -69,14 +70,42 @@ class _MotorSectionState extends State<MotorSection> {
                     ),
                   ],
                 ),
-
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const RobotStatusScreen(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: const [
+                        SizedBox(width: 8),
+                        Text(
+                          'ROBOT STATUS',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 20),
             // Replace Expanded + ListView inside SingleChildScrollView with fixed height
             isL1Selected
                 ? Expanded(
-                  child: GetX<Jointcontroller>(builder: (controller) {
+                    child: GetX<Jointcontroller>(builder: (controller) {
                       if (controller.isLoading.value) {
                         return const Center(
                           child: CircularProgressIndicator(
@@ -95,16 +124,17 @@ class _MotorSectionState extends State<MotorSection> {
                       } else {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-
                           children: [
                             ElevatedButton(
                               onPressed: () async {
-                                List<int> jointValues = controller.valueList.map((e) => e.toInt()).toList();
+                                List<int> jointValues = controller.valueList
+                                    .map((e) => e.toInt())
+                                    .toList();
 
                                 Map<String, dynamic> resp =
-                                await ApiServices.JointControls(
+                                    await ApiServices.JointControls(
                                   arm: '1',
-                                joints: jointValues,
+                                  joints: jointValues,
                                 );
 
                                 print("--------resp resp------------$resp");
@@ -125,15 +155,11 @@ class _MotorSectionState extends State<MotorSection> {
                                     iconColor: Colors.red,
                                   );
                                 }
-
-
-
                               },
                               style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 6),
-                                backgroundColor:
-                                Colors.blue, // Button color
+                                backgroundColor: Colors.blue, // Button color
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
@@ -155,23 +181,26 @@ class _MotorSectionState extends State<MotorSection> {
                                   return Row(
                                     children: [
                                       Text("J${index + 1}",
-                                          style: TextStyle(color: Colors.white)),
+                                          style:
+                                              TextStyle(color: Colors.white)),
                                       const SizedBox(width: 5),
-
                                       Expanded(
                                         child: Slider(
                                           value: controller.valueList[index],
                                           min: controller.minValues[index],
                                           max: controller.maxValues[index],
                                           onChanged: (newVal) {
-                                            controller.valueList[index] = newVal;
+                                            controller.valueList[index] =
+                                                newVal;
                                           },
                                         ),
                                       ),
                                       const SizedBox(width: 5),
                                       Text(
-                                        controller.valueList[index].toStringAsFixed(1),
-                                        style: const TextStyle(color: Colors.white),
+                                        controller.valueList[index]
+                                            .toStringAsFixed(1),
+                                        style: const TextStyle(
+                                            color: Colors.white),
                                       ),
                                     ],
                                   );
@@ -182,10 +211,9 @@ class _MotorSectionState extends State<MotorSection> {
                         );
                       }
                     }),
-                )
+                  )
                 : Expanded(
-                  child: GetX<Jointcontroller2>(
-                    builder: (controller) {
+                    child: GetX<Jointcontroller2>(builder: (controller) {
                       if (controller.isLoading.value) {
                         return const Center(
                           child: CircularProgressIndicator(
@@ -198,22 +226,22 @@ class _MotorSectionState extends State<MotorSection> {
                           child: Text(
                             "No Data from Api",
                             style: TextStyle(
-                                color: Colors.red, fontStyle: FontStyle
-                                .italic),
+                                color: Colors.red, fontStyle: FontStyle.italic),
                           ),
                         );
                       } else {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-
                           children: [
                             ElevatedButton(
                               onPressed: () async {
-                                List<int>jointValues = controller.valueList.map((element) => element.toInt()).toList();
+                                List<int> jointValues = controller.valueList
+                                    .map((element) => element.toInt())
+                                    .toList();
                                 Map<String, dynamic> resp =
-                                await ApiServices.JointControls(
-                                  arm: '2', joints: jointValues,
-
+                                    await ApiServices.JointControls(
+                                  arm: '2',
+                                  joints: jointValues,
                                 );
 
                                 print("--------resp resp------------$resp");
@@ -234,15 +262,11 @@ class _MotorSectionState extends State<MotorSection> {
                                     iconColor: Colors.red,
                                   );
                                 }
-
-
-
                               },
                               style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 6),
-                                backgroundColor:
-                                Colors.blue, // Button color
+                                backgroundColor: Colors.blue, // Button color
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
@@ -264,10 +288,9 @@ class _MotorSectionState extends State<MotorSection> {
                                   return Row(
                                     children: [
                                       Text("J${index + 1}",
-                                          style: TextStyle(
-                                              color: Colors.white)),
+                                          style:
+                                              TextStyle(color: Colors.white)),
                                       const SizedBox(width: 5),
-
                                       Expanded(
                                         child: Slider(
                                           value: controller.valueList[index],
@@ -280,57 +303,71 @@ class _MotorSectionState extends State<MotorSection> {
                                         ),
                                       ),
                                       const SizedBox(width: 5),
-
                                       Text(
                                         controller.valueList[index]
                                             .toStringAsFixed(1),
                                         style: const TextStyle(
                                             color: Colors.white),
                                       ),
-
                                     ],
                                   );
                                 },
                               ),
                             ),
-
                           ],
                         );
                       }
-                    }
+                    }),
                   ),
-                ),
             SizedBox(height: 20),
-            isL1Selected? GetX<JointDatasController>(
-              builder: (JointDatasController controller) {
-              final   dataz = controller.jointData.value?.data;
-                return  Column(
-                  crossAxisAlignment:CrossAxisAlignment.start,
-                children: [
-                  Text("X : ${dataz?.x}",style: TextStyle(color: Colors.white)),Text("Y : ${dataz?.y}",style: TextStyle(color: Colors.white)),Text("Z : ${dataz?.z}",style: TextStyle(color: Colors.white)),Text("RX : ${dataz?.rx}",style: TextStyle(color: Colors.white)),
-                  Text("RY : ${dataz?.ry}",style: TextStyle(color: Colors.white)),   Text("RZ : ${dataz?.rz}",style: TextStyle(color: Colors.white)),
-                  ],
-              );   },
-            ): GetX<JointDatasController2>(
-              builder: (JointDatasController2 controller) {
-                final   dataz = controller.jointData.value?.data;
-                return  Column(
-                  crossAxisAlignment:CrossAxisAlignment.start,
-
-                  children: [
-                    Text("X : ${dataz?.x}",style: TextStyle(color: Colors.white)),Text("Y : ${dataz?.y}",style: TextStyle(color: Colors.white)),Text("Z : ${dataz?.z}",style: TextStyle(color: Colors.white)),Text("RX : ${dataz?.rx}",style: TextStyle(color: Colors.white)),
-                    Text("RY : ${dataz?.ry}",style: TextStyle(color: Colors.white)),   Text("RZ : ${dataz?.rz}",style: TextStyle(color: Colors.white)),
-                  ],
-                );   },
-            ),
-
+            isL1Selected
+                ? GetX<JointDatasController>(
+                    builder: (JointDatasController controller) {
+                      final dataz = controller.jointData.value?.data;
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("X : ${dataz?.x}",
+                              style: TextStyle(color: Colors.white)),
+                          Text("Y : ${dataz?.y}",
+                              style: TextStyle(color: Colors.white)),
+                          Text("Z : ${dataz?.z}",
+                              style: TextStyle(color: Colors.white)),
+                          Text("RX : ${dataz?.rx}",
+                              style: TextStyle(color: Colors.white)),
+                          Text("RY : ${dataz?.ry}",
+                              style: TextStyle(color: Colors.white)),
+                          Text("RZ : ${dataz?.rz}",
+                              style: TextStyle(color: Colors.white)),
+                        ],
+                      );
+                    },
+                  )
+                : GetX<JointDatasController2>(
+                    builder: (JointDatasController2 controller) {
+                      final dataz = controller.jointData.value?.data;
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("X : ${dataz?.x}",
+                              style: TextStyle(color: Colors.white)),
+                          Text("Y : ${dataz?.y}",
+                              style: TextStyle(color: Colors.white)),
+                          Text("Z : ${dataz?.z}",
+                              style: TextStyle(color: Colors.white)),
+                          Text("RX : ${dataz?.rx}",
+                              style: TextStyle(color: Colors.white)),
+                          Text("RY : ${dataz?.ry}",
+                              style: TextStyle(color: Colors.white)),
+                          Text("RZ : ${dataz?.rz}",
+                              style: TextStyle(color: Colors.white)),
+                        ],
+                      );
+                    },
+                  ),
           ],
         ),
       ),
     );
-
-
   }
 }
-
-

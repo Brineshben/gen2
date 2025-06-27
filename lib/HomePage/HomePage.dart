@@ -27,7 +27,8 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
       print("HomePage initialized");
 
       Get.find<JointDatasController>().JointValueData();
-      Get.find<JointDatasController2>().JointValueData2();    });
+      Get.find<JointDatasController2>().JointValueData2();
+    });
 
     Get.find<Jointcontroller>().jointDataz();
     Get.find<Jointcontroller2>().jointDatazz();
@@ -39,9 +40,7 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return const Scaffold(
-
       body: SafeArea(
         child: Row(
           children: [
@@ -63,7 +62,7 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
           ],
         ),
       ),
-      floatingActionButton:JoystickPage(),
+      floatingActionButton: JoystickPage(),
     );
   }
 }
