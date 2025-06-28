@@ -23,7 +23,7 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
   @override
   void initState() {
     super.initState();
-    messageTimer2 = Timer.periodic(const Duration(seconds: 2), (timer) {
+    messageTimer2 = Timer.periodic(const Duration(seconds: 1), (timer) {
       print("HomePage initialized");
 
       Get.find<JointDatasController>().JointValueData();
@@ -32,8 +32,7 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
 
     Get.find<Jointcontroller>().jointDataz();
     Get.find<Jointcontroller2>().jointDatazz();
-    // Get.find<Jointcontroller>().jointDataz();
-    // Get.find<Jointcontroller2>().jointDatazz();
+
 
     // Get.find<Cameracontroller>().CameraDataz();
   }

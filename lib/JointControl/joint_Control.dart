@@ -106,13 +106,13 @@ class _MotorSectionState extends State<MotorSection> {
             isL1Selected
                 ? Expanded(
                     child: GetX<Jointcontroller>(builder: (controller) {
-                      if (controller.isLoading.value) {
-                        return const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.blue,
-                          ),
-                        );
-                      }
+                      // if (controller.isLoading.value) {
+                      //   return const Center(
+                      //     child: CircularProgressIndicator(
+                      //       color: Colors.blue,
+                      //     ),
+                      //   );
+                      // }
                       if (controller.valueList.isEmpty) {
                         return const Center(
                           child: Text(
@@ -327,6 +327,8 @@ class _MotorSectionState extends State<MotorSection> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text("ARM 1 END POSE",
+                              style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
                           Text("X : ${dataz?.x}",
                               style: TextStyle(color: Colors.white)),
                           Text("Y : ${dataz?.y}",
@@ -349,6 +351,8 @@ class _MotorSectionState extends State<MotorSection> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text("ARM 2 END POSE",
+                              style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
                           Text("X : ${dataz?.x}",
                               style: TextStyle(color: Colors.white)),
                           Text("Y : ${dataz?.y}",

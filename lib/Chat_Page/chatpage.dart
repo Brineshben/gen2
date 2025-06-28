@@ -4,7 +4,7 @@ import 'package:gen2/Chat_Page/qalistmodel.dart';
 import 'package:gen2/Service/ApiService.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({super.key});
+  const  ChatPage({super.key});
 
   @override
   State<ChatPage> createState() => _ChatPageState();

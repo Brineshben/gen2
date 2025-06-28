@@ -39,7 +39,7 @@ class _RobotStatusScreenState extends State<RobotStatusScreen> {
   }
 
   Future<void> fetchAllStatus() async {
-    const baseUrl = "http://192.168.1.32:8000";
+    const baseUrl = "http://192.168.11.202:7500";
 
     try {
       setState(() => isLoading = true);
@@ -106,7 +106,7 @@ class _RobotStatusScreenState extends State<RobotStatusScreen> {
     return Expanded(
       child: Card(
         margin: const EdgeInsets.all(8),
-        color: Colors.white,
+        color: Colors.black,
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Column(
@@ -115,23 +115,23 @@ class _RobotStatusScreenState extends State<RobotStatusScreen> {
               // Arm Section
               Text("Arm $armNumber",
                   style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold)),
+                      fontSize: 18, fontWeight: FontWeight.bold,color: Colors.white)),
               const SizedBox(height: 6),
               if (arm != null) ...[
-                Text("Ctrl Mode: ${arm["ctrl_mode"]}"),
-                Text("Status: ${arm["arm_status"]}"),
-                Text("Teach Mode: ${arm["teach_mode"]}"),
-                Text("Motion: ${arm["motion_status"]}"),
-                Text("Trajectory: ${arm["trajectory_num"]}"),
+                Text("Ctrl Mode: ${arm["ctrl_mode"]}",   style: const TextStyle(color: Colors.white)),
+                Text("Status: ${arm["arm_status"]}", style: const TextStyle(color: Colors.white)),
+                Text("Teach Mode: ${arm["teach_mode"]}", style: const TextStyle(color: Colors.white)),
+                Text("Motion: ${arm["motion_status"]}", style: const TextStyle(color: Colors.white)),
+                Text("Trajectory: ${arm["trajectory_num"]}", style: const TextStyle(color: Colors.white)),
               ] else
-                const Text("No arm data"),
+                const Text("No arm data", style: const TextStyle(color: Colors.white)),
               const Divider(),
 
               // Joint Section
               const Text("Joints",
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white)),
               joints.isEmpty
-                  ? const Text("No joints found")
+                  ? const Text("No joints founPd",style: const TextStyle(color: Colors.white))
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: joints.map((joint) {
@@ -140,10 +140,10 @@ class _RobotStatusScreenState extends State<RobotStatusScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Joint: ${joint["joint_number"]}"),
-                              Text("Comms: ${joint["comms"]}"),
-                              Text("Motor: ${joint["motor"]}"),
-                              Text("Limit: ${joint["limit"]}"),
+                              Text("Joint: ${joint["joint_number"]}", style: const TextStyle(color: Colors.white)),
+                              Text("Comms: ${joint["comms"]}", style: const TextStyle(color: Colors.white)),
+                              Text("Motor: ${joint["motor"]}", style: const TextStyle(color: Colors.white)),
+                              Text("Limit: ${joint["limit"]}", style: const TextStyle(color: Colors.white)),
                             ],
                           ),
                         );
@@ -153,15 +153,15 @@ class _RobotStatusScreenState extends State<RobotStatusScreen> {
 
               // Gripper Section
               const Text("Gripper",
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white)),
               if (gripper != null) ...[
-                Text("Voltage Low: ${gripper["voltage_too_low"]}"),
-                Text("Overheating: ${gripper["motor_overheating"]}"),
-                Text("Overcurrent: ${gripper["driver_overcurrent"]}"),
-                Text("Driver Status: ${gripper["driver_enable_status"]}"),
-                Text("Sensor: ${gripper["sensor_status"]}"),
+                Text("Voltage Low: ${gripper["voltage_too_low"]}", style: const TextStyle(color: Colors.white)),
+                Text("Overheating: ${gripper["motor_overheating"]}", style: const TextStyle(color: Colors.white)),
+                Text("Overcurrent: ${gripper["driver_overcurrent"]}", style: const TextStyle(color: Colors.white)),
+                Text("Driver Status: ${gripper["driver_enable_status"]}", style: const TextStyle(color: Colors.white)),
+                Text("Sensor: ${gripper["sensor_status"]}", style: const TextStyle(color: Colors.white)),
               ] else
-                const Text("No gripper data"),
+                const Text("No gripper data", style: const TextStyle(color: Colors.white)),
             ],
           ),
         ),
@@ -172,12 +172,12 @@ class _RobotStatusScreenState extends State<RobotStatusScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
         title: const Text('Robot Full Status',
-            style: TextStyle(color: Colors.black)),
-        iconTheme: const IconThemeData(color: Colors.black),
+            style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Column(
         children: [
