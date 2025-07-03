@@ -23,7 +23,7 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
   @override
   void initState() {
     super.initState();
-    messageTimer2 = Timer.periodic(const Duration(seconds: 1), (timer) {
+    messageTimer2 = Timer.periodic(const Duration(milliseconds: 500 ), (timer) {
       print("HomePage initialized");
 
       Get.find<JointDatasController>().JointValueData();
@@ -33,21 +33,25 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
     Get.find<Jointcontroller>().jointDataz();
     Get.find<Jointcontroller2>().jointDatazz();
 
+    Get.find<Cameracontroller>().CameraDataz(); // Load camera data
 
     // Get.find<Cameracontroller>().CameraDataz();
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(
-        child: Row(
+    return SafeArea(
+      child: const Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Row(
           children: [
             Expanded(
               child: Column(
                 children: [
                   Expanded(child: ChatPage()),
-                  // CameraSection(),
+
+                  CameraSection(),
+
                 ],
               ),
             ),
@@ -60,8 +64,8 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
             ),
           ],
         ),
+        floatingActionButton: JoystickPage(),
       ),
-      floatingActionButton: JoystickPage(),
     );
   }
 }

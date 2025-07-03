@@ -63,11 +63,24 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+
       backgroundColor: Colors.black,
       body: _isInitialLoad
           ? const Center(child: CircularProgressIndicator())
           : Column(
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: Text("CHAT",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
           Expanded(
             child: StreamBuilder<QAListModel>(
               stream: _qaStreamController.stream,
@@ -117,12 +130,12 @@ class _ChatPageState extends State<ChatPage> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 15),
-                              child: const Text('• ',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,color: Colors.white)),
+                            const Padding(
+                              padding: EdgeInsets.only(left: 25,top: 5),
+                              child: Icon(Icons.circle,color: Colors.green,size: 10,),
+                              // child: Text('• ', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
                             ),
+                            SizedBox(width: 5,),
                             Expanded(
                               child: Text(
                                 "${question.trim().endsWith('') ? question.trim() : "${question.trim()}?"}",
@@ -142,9 +155,12 @@ class _ChatPageState extends State<ChatPage> {
                             crossAxisAlignment:
                             CrossAxisAlignment.start,
                             children: [
-                              const Text('• ',
-                                  style: TextStyle(
-                                      color: Colors.white)),
+                              const Padding(
+                                padding: EdgeInsets.only(left: 25,top: 5),
+                                child: Icon(Icons.arrow_forward_ios ,color: Colors.green,size: 10,),
+                                // child: Text('• ', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                              ),
+                              SizedBox(width: 5,),
                               Expanded(
                                 child: Text(
                                   line.trim(),

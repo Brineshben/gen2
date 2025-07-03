@@ -78,26 +78,50 @@ class JoystickPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: const CircleBorder(),
+                padding: const EdgeInsets.all(16), // Adjust padding to control the size
+                backgroundColor: Colors.white, // Button background color
+                elevation: 4,
+              ),
               onPressed: () => sendDirection("up", context),
-              child: const Icon(Icons.arrow_upward),
+              child: const Icon(Icons.keyboard_arrow_up_outlined,color: Colors.blueGrey,size: 20),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: const CircleBorder(),
+                    padding: const EdgeInsets.all(16), // Adjust padding to control the size
+                    backgroundColor: Colors.white, // Button background color
+                    elevation: 4,
+                  ),
                   onPressed: () => sendDirection("left", context),
-                  child: const Icon(Icons.arrow_back_ios_new_outlined),
+                  child: const Icon(Icons.arrow_back_ios_new_outlined,color: Colors.blueGrey,),
                 ),
-                const SizedBox(width: 20),
+                const SizedBox(width: 35),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: const CircleBorder(),
+                    padding: const EdgeInsets.all(16), // Adjust padding to control the size
+                    backgroundColor: Colors.white, // Button background color
+                    elevation: 4,
+                  ),
                   onPressed: () => sendDirection("right", context),
-                  child: const Icon(Icons.arrow_forward_ios),
+                  child: const Icon(Icons.arrow_forward_ios,color: Colors.blueGrey,),
                 ),
               ],
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: const CircleBorder(),
+                padding: const EdgeInsets.all(16), // Adjust padding to control the size
+                backgroundColor: Colors.white, // Button background color
+                elevation: 4,
+              ),
               onPressed: () => sendDirection("down", context),
-              child: const Icon(Icons.arrow_downward),
+              child: const Icon(Icons.keyboard_arrow_down_outlined,color: Colors.blueGrey,size: 20,),
             ),
           ],
         ),

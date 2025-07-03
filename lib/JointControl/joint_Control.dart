@@ -61,12 +61,12 @@ class _MotorSectionState extends State<MotorSection> {
                     Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      child: Text("L1", style: TextStyle(color: Colors.white)),
+                      child: Text("L", style: TextStyle(color: Colors.white)),
                     ),
                     Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      child: Text("L2", style: TextStyle(color: Colors.white)),
+                      child: Text("R", style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),
@@ -166,7 +166,7 @@ class _MotorSectionState extends State<MotorSection> {
                                 elevation: 8, // Shadow elevation
                               ),
                               child: const Text(
-                                'L1 Update',
+                                'L Update',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
@@ -207,6 +207,33 @@ class _MotorSectionState extends State<MotorSection> {
                                 },
                               ),
                             ),
+                            SizedBox(height: 20,),
+                            Expanded(
+                              child: GetX<JointDatasController>(
+                                builder: (JointDatasController controller) {
+                                  final dataz = controller.jointData.value?.data;
+                                  return Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text("L ARM END POSE",
+                                          style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
+                                      Text("X : ${dataz?.x}",
+                                          style: TextStyle(color: Colors.white)),
+                                      Text("Y : ${dataz?.y}",
+                                          style: TextStyle(color: Colors.white)),
+                                      Text("Z : ${dataz?.z}",
+                                          style: TextStyle(color: Colors.white)),
+                                      Text("RX : ${dataz?.rx}",
+                                          style: TextStyle(color: Colors.white)),
+                                      Text("RY : ${dataz?.ry}",
+                                          style: TextStyle(color: Colors.white)),
+                                      Text("RZ : ${dataz?.rz}",
+                                          style: TextStyle(color: Colors.white)),
+                                    ],
+                                  );
+                                },
+                              ),
+                            )
                           ],
                         );
                       }
@@ -214,13 +241,13 @@ class _MotorSectionState extends State<MotorSection> {
                   )
                 : Expanded(
                     child: GetX<Jointcontroller2>(builder: (controller) {
-                      if (controller.isLoading.value) {
-                        return const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.blue,
-                          ),
-                        );
-                      }
+                      // if (controller.isLoading.value) {
+                      //   return const Center(
+                      //     child: CircularProgressIndicator(
+                      //       color: Colors.blue,
+                      //     ),
+                      //   );
+                      // }
                       if (controller.valueList.isEmpty) {
                         return const Center(
                           child: Text(
@@ -273,7 +300,7 @@ class _MotorSectionState extends State<MotorSection> {
                                 elevation: 8, // Shadow elevation
                               ),
                               child: const Text(
-                                'L2 Update',
+                                'R Update',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
@@ -314,61 +341,39 @@ class _MotorSectionState extends State<MotorSection> {
                                 },
                               ),
                             ),
+                            SizedBox(height: 20),
+                           Expanded(
+                                  child: GetX<JointDatasController2>(
+                                                                builder: (JointDatasController2 controller) {
+                                  final dataz = controller.jointData.value?.data;
+                                  return Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const Text("ARM R END POSE",
+                                          style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
+                                      Text("X : ${dataz?.x}",
+                                          style: TextStyle(color: Colors.white)),
+                                      Text("Y : ${dataz?.y}",
+                                          style: TextStyle(color: Colors.white)),
+                                      Text("Z : ${dataz?.z}",
+                                          style: TextStyle(color: Colors.white)),
+                                      Text("RX : ${dataz?.rx}",
+                                          style: TextStyle(color: Colors.white)),
+                                      Text("RY : ${dataz?.ry}",
+                                          style: TextStyle(color: Colors.white)),
+                                      Text("RZ : ${dataz?.rz}",
+                                          style: TextStyle(color: Colors.white)),
+                                    ],
+                                  );
+                                                                },
+                                                              ),
+                                ),
                           ],
                         );
                       }
                     }),
                   ),
-            SizedBox(height: 20),
-            isL1Selected
-                ? GetX<JointDatasController>(
-                    builder: (JointDatasController controller) {
-                      final dataz = controller.jointData.value?.data;
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("ARM 1 END POSE",
-                              style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
-                          Text("X : ${dataz?.x}",
-                              style: TextStyle(color: Colors.white)),
-                          Text("Y : ${dataz?.y}",
-                              style: TextStyle(color: Colors.white)),
-                          Text("Z : ${dataz?.z}",
-                              style: TextStyle(color: Colors.white)),
-                          Text("RX : ${dataz?.rx}",
-                              style: TextStyle(color: Colors.white)),
-                          Text("RY : ${dataz?.ry}",
-                              style: TextStyle(color: Colors.white)),
-                          Text("RZ : ${dataz?.rz}",
-                              style: TextStyle(color: Colors.white)),
-                        ],
-                      );
-                    },
-                  )
-                : GetX<JointDatasController2>(
-                    builder: (JointDatasController2 controller) {
-                      final dataz = controller.jointData.value?.data;
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("ARM 2 END POSE",
-                              style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
-                          Text("X : ${dataz?.x}",
-                              style: TextStyle(color: Colors.white)),
-                          Text("Y : ${dataz?.y}",
-                              style: TextStyle(color: Colors.white)),
-                          Text("Z : ${dataz?.z}",
-                              style: TextStyle(color: Colors.white)),
-                          Text("RX : ${dataz?.rx}",
-                              style: TextStyle(color: Colors.white)),
-                          Text("RY : ${dataz?.ry}",
-                              style: TextStyle(color: Colors.white)),
-                          Text("RZ : ${dataz?.rz}",
-                              style: TextStyle(color: Colors.white)),
-                        ],
-                      );
-                    },
-                  ),
+
           ],
         ),
       ),
