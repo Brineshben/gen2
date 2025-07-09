@@ -33,7 +33,8 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
     Get.find<Jointcontroller>().jointDataz();
     Get.find<Jointcontroller2>().jointDatazz();
 
-    Get.find<Cameracontroller>().CameraDataz(); // Load camera data
+    Get.find<Cameracontroller>().CameraDataz();
+    // Load camera data
 
     // Get.find<Cameracontroller>().CameraDataz();
   }
@@ -50,7 +51,7 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
                 children: [
                   Expanded(child: ChatPage()),
 
-                  CameraSection(),
+                  Expanded(child: CameraSection()),
 
                 ],
               ),

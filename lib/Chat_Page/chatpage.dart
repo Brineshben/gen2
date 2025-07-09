@@ -62,14 +62,12 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-
-      backgroundColor: Colors.black,
-      body: _isInitialLoad
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
-        children: [
+    return _isInitialLoad
+        ? const Center(child: CircularProgressIndicator())
+        : Container(
+      color: Colors.black,
+          child: Column(
+                children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -264,9 +262,9 @@ class _ChatPageState extends State<ChatPage> {
               ),
             ),
           ),
-        ],
-      ),
-    );
+                ],
+              ),
+        );
   }
 }
 

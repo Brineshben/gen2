@@ -349,7 +349,7 @@ class _MotorSectionState extends State<MotorSection> {
                                   return Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Text("ARM R END POSE",
+                                      const Text("R ARM END POSE",
                                           style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
                                       Text("X : ${dataz?.x}",
                                           style: TextStyle(color: Colors.white)),

@@ -39,8 +39,8 @@ class _RobotStatusScreenState extends State<RobotStatusScreen> {
   }
 
   Future<void> fetchAllStatus() async {
-    const baseUrl = "http://192.168.11.202:7500";
-    // const  baseUrl = "http://192.168.1.80:7500";
+    // const baseUrl = "http://192.168.11.202:7500";
+    const  baseUrl = "http://192.168.1.80:7500";
 
     try {
       setState(() => isLoading = true);
@@ -114,9 +114,9 @@ class _RobotStatusScreenState extends State<RobotStatusScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Arm Section
-              Text("Arm $armNumber",
+              Text("ARM $armNumber",
                   style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold,color: Colors.white)),
+                      fontSize: 20, fontWeight: FontWeight.bold,color: Colors.white)),
               const SizedBox(height: 6),
               if (arm != null) ...[
                 Text("Ctrl Mode: ${arm["ctrl_mode"]}",   style: const TextStyle(color: Colors.white)),
@@ -127,42 +127,45 @@ class _RobotStatusScreenState extends State<RobotStatusScreen> {
               ] else
                 const Text("No arm data", style: const TextStyle(color: Colors.white)),
               const Divider(),
-
-              // Joint Section
-              const Text("Joints",
-                  style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white)),
-              joints.isEmpty
-                  ? const Text("No joints found", style: TextStyle(color: Colors.white))
-                  : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Joint: ${joints.last["joint_number"]}", style: const TextStyle(color: Colors.white)),
-                        Text("Comms: ${joints.last["comms"]}", style: const TextStyle(color: Colors.white)),
-                        Text("Motor: ${joints.last["motor"]}", style: const TextStyle(color: Colors.white)),
-                        Text("Limit: ${joints.last["limit"]}", style: const TextStyle(color: Colors.white)),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const Divider(),
-
               // Gripper Section
-              const Text("Gripper",
-                  style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white)),
+              const Text("GRIPPER",
+                  style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 20)),
               if (gripper != null) ...[
                 Text("Voltage Low: ${gripper["voltage_too_low"]}", style: const TextStyle(color: Colors.white)),
                 Text("Overheating: ${gripper["motor_overheating"]}", style: const TextStyle(color: Colors.white)),
                 Text("Overcurrent: ${gripper["driver_overcurrent"]}", style: const TextStyle(color: Colors.white)),
+                Text("Driver Error Status: ${gripper["driver_error_status"]}", style: const TextStyle(color: Colors.white)),
+                Text("Homing Status: ${gripper["homing_status"]}", style: const TextStyle(color: Colors.white)),
                 Text("Driver Status: ${gripper["driver_enable_status"]}", style: const TextStyle(color: Colors.white)),
                 Text("Sensor: ${gripper["sensor_status"]}", style: const TextStyle(color: Colors.white)),
               ] else
                 const Text("No gripper data", style: const TextStyle(color: Colors.white)),
+              const Divider(),
+              // Joint Section
+              const Text("JOINTS",
+                  style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 20)),
+              joints.isEmpty
+                  ? const Text("No joints found", style: TextStyle(color: Colors.white))
+                  : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: joints.map<Widget>((joint) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Joint: ${joint["joint_number"]}", style: const TextStyle(color: Colors.white)),
+                        Text("Comms: ${joint["comms"]}", style: const TextStyle(color: Colors.white)),
+                        Text("Motor: ${joint["motor"]}", style: const TextStyle(color: Colors.white)),
+                        Text("Limit: ${joint["limit"]}", style: const TextStyle(color: Colors.white)),
+                        const Divider(color: Colors.grey),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
+
+
             ],
           ),
         ),

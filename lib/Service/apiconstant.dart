@@ -8,8 +8,8 @@ class ApiConstants {
   }
 
   ///BaseURL
-  static String baseURL = "http://192.168.11.202:7500";
-  // static String baseURL = "http://192.168.1.80:7500";
+  // static String baseURL = "http://192.168.11.202:7500";
+  static String baseURL = "http://192.168.1.80:7500";
 
   static String cameraList ="/camera/camera/list/";
   static String jointCreate ="/joint/joint-status/create/";
