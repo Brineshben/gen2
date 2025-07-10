@@ -11,12 +11,14 @@ import 'Service/controller_handling.dart';
 
 void main()async{
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations(
-      [
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight,
-      ]
-  );
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]);
+  HandleControllers.createGetControllers();
 
   runApp(const MyApp());
 }
@@ -27,7 +29,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HandleControllers.createGetControllers();
 
     return const ScreenUtilInit(
       designSize: Size(430, 930),
