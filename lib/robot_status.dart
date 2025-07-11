@@ -34,22 +34,18 @@ class _RobotStatusScreenState extends State<RobotStatusScreen> {
   }
 
   void _startAutoRefresh() {
-    _timer =
-        Timer.periodic(const Duration(seconds: 5), (_) => fetchAllStatus());
+    _timer = Timer.periodic(const Duration(seconds: 5), (_) => fetchAllStatus());
   }
 
   Future<void> fetchAllStatus() async {
-    // const baseUrl = "http://192.168.11.202:7500";
-    const  baseUrl = "http://192.168.1.80:7500";
+    const baseUrl = "http://192.168.1.80:7500";
 
     try {
       setState(() => isLoading = true);
 
       final armResponse = await http.get(Uri.parse("$baseUrl/arm/arm/list/"));
-      final jointResponse =
-          await http.get(Uri.parse("$baseUrl/arm/joint/list/"));
-      final gripperResponse =
-          await http.get(Uri.parse("$baseUrl/arm/gripper/list/"));
+      final jointResponse = await http.get(Uri.parse("$baseUrl/arm/joint/list/"));
+      final gripperResponse = await http.get(Uri.parse("$baseUrl/arm/gripper/list/"));
 
       if (armResponse.statusCode == 200 &&
           jointResponse.statusCode == 200 &&
@@ -66,7 +62,6 @@ class _RobotStatusScreenState extends State<RobotStatusScreen> {
           arms[arm['arm_number']] = arm;
         }
 
-        // 🛠 Force j2 to arm 2 manually
         for (var joint in jointList) {
           String armNum = joint['arm_number'];
           if (joint['joint_number'] == 'j2') {
@@ -92,11 +87,26 @@ class _RobotStatusScreenState extends State<RobotStatusScreen> {
       }
     } catch (e) {
       setState(() => isLoading = false);
-      // print("Error: $e");
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(content: Text("No Response From Api")),
-      // );
     }
+  }
+
+  Widget buildStyledTile(String label, String value) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.grey[900],
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.white.withOpacity(0.3)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label.toUpperCase(), style: const TextStyle(color: Colors.white, fontSize: 14,fontWeight: FontWeight.bold)),
+          Text(value, style: const TextStyle(color: Colors.white, fontSize: 15)),
+        ],
+      ),
+    );
   }
 
   Widget buildSide(String armNumber) {
@@ -104,74 +114,112 @@ class _RobotStatusScreenState extends State<RobotStatusScreen> {
     final joints = jointDataByArm[armNumber] ?? [];
     final gripper = gripperData[armNumber];
 
+    Widget buildStyledTile(String label, String value) {
+      return Container(
+        margin: const EdgeInsets.symmetric(vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.grey[900],
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.white.withOpacity(0.3)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(label.toUpperCase(), style: const TextStyle(color: Colors.white70, fontSize: 14,fontWeight: FontWeight.bold)),
+            Text(value, style: const TextStyle(color: Colors.white, fontSize: 15)),
+          ],
+        ),
+      );
+    }
+
     return Expanded(
       child: Card(
-        margin: const EdgeInsets.all(8),
+        margin: const EdgeInsets.all(10),
         color: Colors.black,
         child: Padding(
           padding: const EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Arm Section
-              Text("ARM $armNumber",
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold,color: Colors.white)),
-              const SizedBox(height: 6),
-              if (arm != null) ...[
-                Text("Ctrl Mode: ${arm["ctrl_mode"]}",   style: const TextStyle(color: Colors.white)),
-                Text("Status: ${arm["arm_status"]}", style: const TextStyle(color: Colors.white)),
-                Text("Teach Mode: ${arm["teach_mode"]}", style: const TextStyle(color: Colors.white)),
-                Text("Motion: ${arm["motion_status"]}", style: const TextStyle(color: Colors.white)),
-                Text("Trajectory: ${arm["trajectory_num"]}", style: const TextStyle(color: Colors.white)),
-              ] else
-                const Text("No arm data", style: const TextStyle(color: Colors.white)),
-              const Divider(),
-              // Gripper Section
-              const Text("GRIPPER",
-                  style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 20)),
-              if (gripper != null) ...[
-                Text("Voltage Low: ${gripper["voltage_too_low"]}", style: const TextStyle(color: Colors.white)),
-                Text("Overheating: ${gripper["motor_overheating"]}", style: const TextStyle(color: Colors.white)),
-                Text("Overcurrent: ${gripper["driver_overcurrent"]}", style: const TextStyle(color: Colors.white)),
-                Text("Driver Error Status: ${gripper["driver_error_status"]}", style: const TextStyle(color: Colors.white)),
-                Text("Homing Status: ${gripper["homing_status"]}", style: const TextStyle(color: Colors.white)),
-                Text("Driver Status: ${gripper["driver_enable_status"]}", style: const TextStyle(color: Colors.white)),
-                Text("Sensor: ${gripper["sensor_status"]}", style: const TextStyle(color: Colors.white)),
-              ] else
-                const Text("No gripper data", style: const TextStyle(color: Colors.white)),
-              const Divider(),
-              // Joint Section
-              const Text("JOINTS",
-                  style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 20)),
-              joints.isEmpty
-                  ? const Text("No joints found", style: TextStyle(color: Colors.white))
-                  : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: joints.map<Widget>((joint) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Joint: ${joint["joint_number"]}", style: const TextStyle(color: Colors.white)),
-                        Text("Comms: ${joint["comms"]}", style: const TextStyle(color: Colors.white)),
-                        Text("Motor: ${joint["motor"]}", style: const TextStyle(color: Colors.white)),
-                        Text("Limit: ${joint["limit"]}", style: const TextStyle(color: Colors.white)),
-                        const Divider(color: Colors.grey),
-                      ],
-                    ),
-                  );
-                }).toList(),
-              ),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("ARM $armNumber",
+                    style: const TextStyle(
+                        fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white)),
+                const SizedBox(height: 12),
 
+                if (arm != null) ...[
+                  buildStyledTile("Ctrl Mode", "${arm["ctrl_mode"]}"),
+                  buildStyledTile("Status", "${arm["arm_status"]}"),
+                  buildStyledTile("Teach Mode", "${arm["teach_mode"]}"),
+                  buildStyledTile("Motion", "${arm["motion_status"]}"),
+                  buildStyledTile("Trajectory", "${arm["trajectory_num"]}"),
+                ] else
+                  const Text("No arm data", style: TextStyle(color: Colors.white)),
 
-            ],
+                const SizedBox(height: 20),
+                const Text("GRIPPER",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18)),
+                const SizedBox(height: 10),
+
+                if (gripper != null) ...[
+                  buildStyledTile("Voltage Low", "${gripper["voltage_too_low"]}"),
+                  buildStyledTile("Overheating", "${gripper["motor_overheating"]}"),
+                  buildStyledTile("Overcurrent", "${gripper["driver_overcurrent"]}"),
+                  buildStyledTile("Driver Error", "${gripper["driver_error_status"]}"),
+                  buildStyledTile("Homing Status", "${gripper["homing_status"]}"),
+                  buildStyledTile("Driver Status", "${gripper["driver_enable_status"]}"),
+                  buildStyledTile("Sensor", "${gripper["sensor_status"]}"),
+                ] else
+                  const Text("No gripper data", style: TextStyle(color: Colors.white)),
+
+                const SizedBox(height: 20),
+                const Text("JOINTS",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18)),
+                const SizedBox(height: 10),
+                joints.isEmpty
+                    ? const Text("No joints found", style: TextStyle(color: Colors.white))
+                    : Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: joints.map<Widget>((joint) {
+                    return Container(
+                      width: 160, // Set a fixed width or adjust based on your design
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[900],
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.grey[700]!),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Joint: ${joint["joint_number"]}",
+                              style: const TextStyle(
+                                  color: Colors.white, fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 6),
+                          Text("Comms: ${joint["comms"]}",
+                              style: const TextStyle(color: Colors.white70)),
+                          Text("Motor: ${joint["motor"]}",
+                              style: const TextStyle(color: Colors.white70)),
+                          Text("Limit: ${joint["limit"]}",
+                              style: const TextStyle(color: Colors.white70)),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                )
+
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -179,9 +227,17 @@ class _RobotStatusScreenState extends State<RobotStatusScreen> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: const Text('Robot Full Status',
-            style: TextStyle(color: Colors.white)),
+        title: const Text(
+          'ROBOT FULL STATUS',
+          style: TextStyle(color: Colors.white),
+        ),
         iconTheme: const IconThemeData(color: Colors.white),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new_outlined),
+          onPressed: () {
+            Navigator.of(context).pop(); // Navigate back
+          },
+        ),
       ),
       body: Column(
         children: [
@@ -198,8 +254,8 @@ class _RobotStatusScreenState extends State<RobotStatusScreen> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildSide("1"), // Left column
-                      buildSide("2"), // Right column
+                      buildSide("1"),
+                      buildSide("2"),
                     ],
                   ),
                 );

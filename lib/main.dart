@@ -30,14 +30,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return const ScreenUtilInit(
-      designSize: Size(430, 930),
+    return  ScreenUtilInit(
+      designSize: const Size(430, 930),
       minTextAdapt: true,
       splitScreenMode: true,
-      child: GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: FourSectionScreen(),
-      ),
+      builder: (context, child) {
+        return const GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: FourSectionScreen(),
+        );
+      },
     );
   }
 }

@@ -166,3 +166,4 @@ class _CameraSectionState extends State<CameraSection> {
     );
   }
 }
+

@@ -72,7 +72,7 @@ class _ChatPageState extends State<ChatPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 5),
+                padding: const EdgeInsets.only(left: 10,top: 10),
                 child: Text("CHAT",
                   style: TextStyle(color: Colors.white),
                 ),
