@@ -39,6 +39,7 @@ class _RobotStatusScreenState extends State<RobotStatusScreen> {
 
   Future<void> fetchAllStatus() async {
     const baseUrl = "http://192.168.1.80:7500";
+    // const baseUrl = "http://192.168.11.201:7500";
 
     try {
       setState(() => isLoading = true);

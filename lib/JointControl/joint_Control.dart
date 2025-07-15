@@ -29,7 +29,7 @@ class _MotorSectionState extends State<MotorSection> {
             const Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text("ARM CONTROLLER", style: TextStyle(color: Colors.white)),
+                Text("ROBOT JOINTS", style: TextStyle(color: Colors.white)),
               ],
             ),
             const SizedBox(height: 6),
@@ -61,12 +61,12 @@ class _MotorSectionState extends State<MotorSection> {
                     Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      child: Text("L", style: TextStyle(color: Colors.white)),
+                      child: Text("LEFT", style: TextStyle(color: Colors.white)),
                     ),
                     Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      child: Text("R", style: TextStyle(color: Colors.white)),
+                      child: Text("RIGHT", style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),
@@ -218,21 +218,21 @@ class _MotorSectionState extends State<MotorSection> {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("L ARM END POSE",
+                                    Text("LEFT ARM END POSE",
                                         style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
                                     SizedBox(height: 5,),
 
-                                    Text("X    :  ${dataz?.x}",
+                                    Text("X     :  ${dataz?.x}",
                                         style: TextStyle(color: Colors.white)),
-                                    Text("Y    :  ${dataz?.y}",
+                                    Text("Y     :  ${dataz?.y}",
                                         style: TextStyle(color: Colors.white)),
-                                    Text("Z    :  ${dataz?.z}",
+                                    Text("Z     :  ${dataz?.z}",
                                         style: TextStyle(color: Colors.white)),
-                                    Text("RX  :  ${dataz?.rx}",
+                                    Text("RX   :  ${dataz?.rx}",
                                         style: TextStyle(color: Colors.white)),
-                                    Text("RY  :  ${dataz?.ry}",
+                                    Text("RY   :  ${dataz?.ry}",
                                         style: TextStyle(color: Colors.white)),
-                                    Text("RZ  :  ${dataz?.rz}",
+                                    Text("RZ   :  ${dataz?.rz}",
                                         style: TextStyle(color: Colors.white)),
                                   ],
                                 );
@@ -356,7 +356,7 @@ class _MotorSectionState extends State<MotorSection> {
                            return Column(
                              crossAxisAlignment: CrossAxisAlignment.start,
                              children: [
-                               const Text("R ARM END POSE",
+                               const Text("RIGHT ARM END POSE",
                                    style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
                                SizedBox(height: 5),
                                Text("X     :  ${dataz?.x}",
