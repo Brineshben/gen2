@@ -1,16 +1,21 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import '../Camera/Controller/CameraController.dart';
+import '../Camera/camera_Sample.dart';
 import '../Camera/camera_page.dart';
 import '../Chat_Page/chatpage.dart';
 import '../JointControl/Controller/jointController.dart';
 import '../JointControl/Controller/jointdatasController.dart';
 import '../JointControl/joint_Control.dart';
+import '../Service/controller_handling.dart';
+import '../Service/sharedPrefernce.dart';
 import '../joystick/joystick_page.dart';
+import '../login/view/loginview.dart';
 
 class FourSectionScreen extends StatefulWidget {
   const FourSectionScreen({super.key});
@@ -52,6 +57,7 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
       }
     });
 
+
     if (Get.isRegistered<Jointcontroller>()) {
       Get.find<Jointcontroller>().jointDataz();
     }
@@ -71,7 +77,7 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
       child: Scaffold(
         key: _scaffoldKey, // Important to control the drawer
 
-        // resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.black,
         appBar: AppBar(
           backgroundColor: Colors.grey[900],
@@ -169,13 +175,9 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
 
         ),
         drawer: Drawer(
-          child: Container(
+          child:Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.blueGrey, Colors.grey],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+             color: Colors.grey[900]
             ),
             child: Padding(
               padding: const EdgeInsets.only(top: 100),
@@ -202,7 +204,7 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
+                        backgroundColor: Colors.grey,
                         foregroundColor: Colors.deepPurple,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
@@ -210,16 +212,20 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
                         elevation: 5,
                         padding: EdgeInsets.symmetric(vertical: 16),
                       ),
-                      onPressed: () {},
-                      icon: Icon(Icons.home),
-                      label: Text("Home"),
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) {return
+                          CameraStreamPage();
+                        },));
+                      },
+                      icon: Icon(Icons.home,color: Colors.white,),
+                      label: Text("Camera",style: TextStyle(color: Colors.white),),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
+                        backgroundColor:Colors.grey,
                         foregroundColor: Colors.indigo,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
@@ -228,15 +234,15 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
                         padding: EdgeInsets.symmetric(vertical: 16),
                       ),
                       onPressed: () {},
-                      icon: Icon(Icons.settings),
-                      label: Text("Settings"),
+                      icon: Icon(Icons.settings,color: Colors.white,),
+                      label: Text("Settings",style: TextStyle(color: Colors.white),),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
+                        backgroundColor: Colors.grey,
                         foregroundColor: Colors.pinkAccent,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
@@ -244,9 +250,23 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
                         elevation: 5,
                         padding: EdgeInsets.symmetric(vertical: 16),
                       ),
-                      onPressed: () {},
-                      icon: Icon(Icons.logout),
-                      label: Text("Logout"),
+                      onPressed: ()async {
+
+
+                        // ApiServices.fcmtokenlogout(emailId:Get.find<UserAuthController>().userData.value.username ?? '');
+                        HandleControllers.deleteAllGetControllers();
+
+                        await SharedPrefs().removeLoginData();
+
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => const LoginPage()),
+                                (_) => false);
+
+                        HandleControllers.createGetControllers();
+                      },
+                      icon: Icon(Icons.logout,color: Colors.white,),
+                      label: Text("Logout",style: TextStyle(color: Colors.white),),
                     ),
                   ),
                 ],
@@ -261,7 +281,7 @@ class _FourSectionScreenState extends State<FourSectionScreen> {
               child: Column(
                 children: [
                   Expanded(child: ChatPage()),
-                  // Expanded(child: CameraSection()),
+                  Expanded(child: CameraSection()),
                 ],
               ),
             ),

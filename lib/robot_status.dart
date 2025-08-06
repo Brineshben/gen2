@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 
 class RobotStatusScreen extends StatefulWidget {
@@ -32,14 +33,15 @@ class _RobotStatusScreenState extends State<RobotStatusScreen> {
     _dataStreamController.close();
     super.dispose();
   }
-
+                                                          
   void _startAutoRefresh() {
     _timer = Timer.periodic(const Duration(seconds: 5), (_) => fetchAllStatus());
   }
 
   Future<void> fetchAllStatus() async {
-    const baseUrl = "http://192.168.1.80:7500";
-    // const baseUrl = "http://192.168.11.201:7500";
+    // const baseUrl = "http://192.168.1.80:7500";
+    const baseUrl = "http://192.168.1.69:8000";
+    // const baseUrl = "http://192.168.1.33:8080";
 
     try {
       setState(() => isLoading = true);
@@ -233,13 +235,27 @@ class _RobotStatusScreenState extends State<RobotStatusScreen> {
           style: TextStyle(color: Colors.white),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_outlined),
-          onPressed: () {
-            Navigator.of(context).pop(); // Navigate back
+        leading:      Padding(
+          padding: const EdgeInsets.only(left: 10,top: 7,bottom: 7,right: 10),                child: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
           },
-        ),
-      ),
+          child: Container(
+            height: 50,
+            width: 60,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),
+              // border: Border.all(
+              //   color: Colors.white,
+              //   width: 0.1,
+              // ),
+              borderRadius: BorderRadius.circular(15).r,
+            ),
+            child: Icon(Icons.arrow_back_ios_new_rounded),
+          ),
+    ),
+    ),
+    ),
       body: Column(
         children: [
           const SizedBox(height: 10),

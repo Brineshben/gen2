@@ -12,6 +12,33 @@ class ApiServices {
   factory ApiServices() {
     return _instance;
   }
+  ///login
+  static Future<Map<String, dynamic>> userLogin({
+    required String userName,
+    required String psw,
+  }) async {
+    String url = "${ApiConstants.baseURL}${ApiConstants.login}";
+    print(url);
+    Map apiBody = {
+      "username": userName,
+      "password": psw,
+    };
+    // try {
+    var request = http.Request('POST', Uri.parse(url));
+    request.body = (json.encode(apiBody));
+    request.headers.addAll({'Content-Type': 'application/json'});
+    print('Api body---------------------->${request.body}');
+    http.StreamedResponse response = await request.send();
+    print('Api bodybenenen---------------------->${response}');
+
+    var respString = await response.stream.bytesToString();
+    print('Api body---------------------->${json.decode(respString)}');
+    return json.decode(respString);
+
+    // } catch (e) {
+    //   throw Exception("Service Error");
+    // }
+  }
 
   static Future<Map<String, dynamic>> CameraList() async {
     String url = "${ApiConstants.baseURL}${ApiConstants.cameraList}";

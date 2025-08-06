@@ -199,10 +199,8 @@ class _ChatPageState extends State<ChatPage> {
           ),
 
           // Redesigned Input Section
-          Container(
-            padding:
-            const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            color: Colors.black,
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
             child: Container(
               padding:
               const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
@@ -229,6 +227,7 @@ class _ChatPageState extends State<ChatPage> {
                       enabled: _lastIsAnswered,
                       decoration: InputDecoration(
                         hintText: _lastIsAnswered
+
                             ? "Ask your question..."
                             : "Waiting for response...",
                         border: InputBorder.none,

@@ -7,6 +7,8 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'Camera/Controller/CameraController.dart';
 import 'HomePage/HomePage.dart';
 import 'Service/controller_handling.dart';
+import 'Service/sharedPrefernce.dart';
+import 'login/view/loginview.dart';
 
 
 void main()async{
@@ -19,7 +21,8 @@ void main()async{
     DeviceOrientation.landscapeRight,
   ]);
   HandleControllers.createGetControllers();
-
+  final sharedPrefs = SharedPrefs();
+  await sharedPrefs.initialize();
   runApp(const MyApp());
 }
 
@@ -37,9 +40,10 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return const GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          home: FourSectionScreen(),
+          home: LoginPage(),
         );
       },
     );
   }
 }
+
